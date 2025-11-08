@@ -1,8 +1,7 @@
-import { useState, useEffect, useEffectEvent } from 'react';
+import { useState, useEffect } from 'react';
 import Wordle from './Wordle';
 
 const Game = () => {
-	const [isGameOver, setIsGameOver] = useState(false);
 	const [solution, setSolution] = useState(null);
 
 	useEffect(() => {
