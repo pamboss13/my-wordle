@@ -63,6 +63,10 @@ h1 {
 	animation: pop 0.2s ease-in-out forwards;
 }
 
+.row > div.invalid {
+	animation: invalid 0.6s ease-in-out forwards;
+}
+
 .keypad {
   max-width: 500px;
   margin: 20px auto;
@@ -156,6 +160,29 @@ h1 {
 	}
 	100% {
 		transform: scale(1);
+		border-color: #fff;
+	}
+}
+
+@keyframes invalid {
+	0% {
+		transform: scale(1);
+		background: #000;
+		border-color: #fff;
+	}
+	25% {
+		transform: scale(1.15);
+		background: #ff1744;
+		border-color: #ff1744;
+	}
+	75% {
+		transform: scale(1.15);
+		background: #ff1744;
+		border-color: #ff1744;
+	}
+	100% {
+		transform: scale(1);
+		background: #000;
 		border-color: #fff;
 	}
 }

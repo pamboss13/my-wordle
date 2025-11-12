@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { isValidWord } from '../utils/functions';
 
 const useWordle = (solution) => {
 	const [turn, setTurn] = useState(0);
@@ -7,6 +8,8 @@ const useWordle = (solution) => {
 	const [history, setHistory] = useState([]);
 	const [isCorrect, setIsCorrect] = useState(false);
 	const [usedKeys, setUsedKeys] = useState({});
+	const [invalidWord, setInvalidWord] = useState(false);
+	const [animationKey, setAnimationKey] = useState(0);
 
 	const formatString = () => {
 		let solutionArray = [...solution]
@@ -95,8 +98,24 @@ const useWordle = (solution) => {
 				console.log('word must be 5 chars long');
 				return;
 			}
-			const formatted = formatString()
-			addNewGuess(formatted)
+			// check if word is valid
+			isValidWord(currentGuess).then(valid => {
+				if (!valid) {
+					console.log('word is not in the word list, triggering invalid animation for:', currentGuess);
+					setInvalidWord(true);
+					setAnimationKey(prev => prev + 1);
+					// reset invalid state after animation and clear guess
+					setTimeout(() => {
+						console.log('animation complete, resetting');
+						setInvalidWord(false);
+						setCurrentGuess('');
+					}, 600);
+					return;
+				}
+				console.log('valid word:', currentGuess);
+				const formatted = formatString()
+				addNewGuess(formatted)
+			});
 		}
 
 		if (key === 'Backspace') {
@@ -115,7 +134,7 @@ const useWordle = (solution) => {
 		}
 	}
 
-	return { turn, guesses, currentGuess, handleKeyup, isCorrect, usedKeys };
+	return { turn, guesses, currentGuess, handleKeyup, isCorrect, usedKeys, invalidWord, animationKey };
 
 }
 
