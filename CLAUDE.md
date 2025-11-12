@@ -14,11 +14,15 @@ npm start
 # Run tests in watch mode
 npm test
 
+# Run a single test file
+npm test -- --testPathPattern=Row.test.js
+
 # Build for production
 npm run build
 
 # Start JSON Server for data (runs on http://localhost:3001)
-# Requires separate setup - see Backend section below
+# Requires separate terminal - see Backend section below
+json-server --watch src/data/db.json --port 3001
 ```
 
 ## Project Overview
@@ -51,6 +55,7 @@ This is a React-based implementation of the Wordle game, bootstrapped with Creat
 - `formatString()`: Colors letters based on position matching (green, yellow, grey)
 - `addNewGuess()`: Updates game state with new guess, increments turn counter
 - Validates words against backend API, prevents duplicates, enforces 5-letter constraint
+- **Note**: Invalid words trigger a shake animation but do not count toward the 6-turn limit
 
 ### State Management
 
@@ -71,12 +76,23 @@ The app requires a JSON Server running on `http://localhost:3001` that provides:
 - **GET `/solutions`** - Returns array of valid word objects with `word` property
 - **GET `/letters`** - Returns array of letter objects with `key` property (the alphabet)
 
-The data is stored in `src/data/db.json` (very large file with word lists).
+### Setup
 
-To start the JSON Server:
-```bash
-json-server --watch src/data/db.json --port 3001
-```
+The data is stored in `src/data/db.json` (a large file with word lists). Before running the app:
+
+1. Install `json-server` globally or locally:
+   ```bash
+   npm install -g json-server
+   ```
+
+2. Start the JSON Server in a **separate terminal**:
+   ```bash
+   json-server --watch src/data/db.json --port 3001
+   ```
+
+3. In another terminal, start the React dev server with `npm start`
+
+**Important**: Both the React dev server (port 3000) and JSON Server (port 3001) must be running simultaneously for the app to work.
 
 ## Styling
 
@@ -97,3 +113,11 @@ json-server --watch src/data/db.json --port 3001
 - Keyboard events are managed via native `keyup` listeners, cleaned up on unmount
 - Word validation is asynchronous via fetch to JSON Server
 - Game ends when player wins or uses all 6 turns
+- Only valid words (found in `/solutions` endpoint) count toward the 6-turn limit
+
+## Common Development Tasks
+
+- **Modifying game rules**: Edit `useWordle.js` hook logic
+- **Changing colors/styling**: Update `src/index.css` or component-specific `.module.css` files
+- **Adding new word lists**: Update `src/data/db.json` and restart JSON Server
+- **Debugging game state**: Check browser DevTools and the hook's state variables in `useWordle.js`

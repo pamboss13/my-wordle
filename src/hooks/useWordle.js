@@ -108,7 +108,6 @@ const useWordle = (solution) => {
 					setTimeout(() => {
 						console.log('animation complete, resetting');
 						setInvalidWord(false);
-						setCurrentGuess('');
 					}, 600);
 					return;
 				}
