@@ -66,13 +66,14 @@ h1 {
 }
 
 .row > div.invalid {
-	animation: invalid 0.6s ease-in-out forwards;
+	animation: invalid 0.3s ease-in-out forwards !important;
 }
 
 .keypad {
   max-width: 500px;
   margin: 20px auto;
 }
+
 .keypad > div {
   margin: 5px;
   width: 40px;
@@ -89,11 +90,13 @@ h1 {
   color: #fff;
   transition: all 0.3s ease-in;
 }
+
 .keypad > div.yellow {
   background: #e2cc68;
   color: #fff;
   transition: all 0.3s ease-in;
 }
+
 .keypad > div.grey {
   background: #a1a1a1;
   color: #fff;
@@ -169,16 +172,17 @@ h1 {
 @keyframes invalid {
 	0% {
 		transform: scale(1);
-		background: #000;
-		border-color: #F54927 !important;
+		background: #ff0000;
+		border-color: #ff0000 important;
 	}
 	50% {
-		transform: scale(2);
-		border-color: #F54927 !important;
+		transform: scale(1.25);
+		background: #ff0000;
+		border-color: #ff0000 !important;
 	}
 	100% {
 		transform: scale(1);
-		background: #000;
-		border-color: #F54927 !important;
+		background: #ff0000;
+		border-color: #ff0000 !important;
 	}
 }
